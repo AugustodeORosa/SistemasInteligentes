@@ -27,23 +27,19 @@ class Stack:
     def is_empty(self):
         return len(self.items) == 0
 class Explorer(AbstAgent):
-    def __init__(self, env, config_file, resc):
-        """ Construtor do agente DFS on-line
-        @param env: referência ao ambiente 
-        @param config_file: caminho absoluto para o arquivo de configuração do explorador
-        @param resc: referência ao agente resgatador a ser chamado ao final da exploração
-        """
+    def __init__(self, env, config_file, resc, shared_map):
         super().__init__(env, config_file)
-        self.walk_stack = Stack()  # Pilha para armazenar movimentos
-        self.set_state(VS.ACTIVE)  # Estado inicial do explorador
-        self.resc = resc           # Referência ao resgatador
-        self.x = 0                 # Posição inicial (x)
-        self.y = 0                 # Posição inicial (y)
-        self.map = Map()           # Mapa do ambiente explorado
-        self.victims = {}          # Dicionário de vítimas encontradas
-
+        self.walk_stack = Stack()
+        self.set_state(VS.ACTIVE)
+        self.resc = resc
+        self.x = 0
+        self.y = 0
+        self.map = shared_map  # Usa o mapa compartilhado
+        self.victims = {}
+        
         # Adiciona a posição inicial (base) ao mapa
         self.map.add((self.x, self.y), 1, VS.NO_VICTIM, self.check_walls_and_lim())
+
 
     def explore(self):
         """ Implementa DFS on-line para explorar o ambiente. """
@@ -89,8 +85,10 @@ class Explorer(AbstAgent):
                 self.walk(dx, dy)
                 self.x, self.y = prev_x, prev_y
             else:
+                # Condição final de exploração
                 print(f"{self.NAME}: Sem mais movimentos possíveis, exploração finalizada.")
-
+                self.set_state(VS.IDLE)  # Marca o agente como inativo
+                
     def come_back(self):
         """ Retorna para a base utilizando a pilha de movimentos. """
         if not self.walk_stack.is_empty():
@@ -101,9 +99,15 @@ class Explorer(AbstAgent):
             if result == VS.EXECUTED:
                 self.x += dx
                 self.y += dy
+        elif (self.x == 0 and self.y == 0):
+            print(f"{self.NAME}: Retornou à base.")
 
     def deliberate(self) -> bool:
         """ Escolhe a próxima ação para o explorador. """
+        # Verifica se o explorador ainda está ativo
+        if self.get_state() != VS.ACTIVE:
+            return False
+
         consumed_time = self.TLIM - self.get_rtime()
         if consumed_time < self.get_rtime():
             self.explore()
@@ -112,7 +116,8 @@ class Explorer(AbstAgent):
         # Hora de retornar à base
         if self.walk_stack.is_empty() or (self.x == 0 and self.y == 0):
             print(f"{self.NAME}: rtime {self.get_rtime()}, chamando o resgatador")
-            self.resc.go_save_victims(self.map, self.victims)
+            self.resc.go_save_victims(self.map, self.victims)  # Chama o resgatador
+            self.set_state(VS.IDLE)  # Marca o explorador como inativo após o chamado
             return False
 
         self.come_back()

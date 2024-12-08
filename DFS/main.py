@@ -6,32 +6,33 @@ import time
 from vs.environment import Env
 from explorer import Explorer
 from rescuer import Rescuer
+from map import Map  
 
 def main(data_folder_name):
-   
-    # Set the path to config files and data files for the environment
     current_folder = os.path.abspath(os.getcwd())
     data_folder = os.path.abspath(os.path.join(current_folder, data_folder_name))
 
-    
-    # Instantiate the environment
+    # Instancia o ambiente
     env = Env(data_folder)
     
-    # config files for the agents
+    # Cria um mapa global compartilhado
+    shared_map = Map()
+    
+    # Configura os agentes
     rescuer_file = os.path.join(data_folder, "rescuer_config.txt")
-    explorer_file = os.path.join(data_folder, "explorer_config.txt")
-    
-    # Instantiate agents rescuer and explorer
     resc = Rescuer(env, rescuer_file)
-
-    # Explorer needs to know rescuer to send the map
-    # that's why rescuer is instatiated before
-    exp = Explorer(env, explorer_file, resc)
-
-    # Run the environment simulator
-    env.run()
     
-        
+    num_explorers = 3  # Número de exploradores
+    explorers = []
+    for i in range(num_explorers):
+        explorer_config_file = os.path.join(data_folder, f"explorer_{i}_config.txt")
+        print(f"Config file for explorer {i}: {explorer_config_file}")
+        explorer = Explorer(env, explorer_config_file, resc, shared_map)  # Passa o mapa compartilhado
+        explorers.append(explorer)
+    
+    # Executa o simulador
+    env.run()
+
 if __name__ == '__main__':
     """ To get data from a different folder than the default called data
     pass it by the argument line"""
@@ -39,6 +40,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         data_folder_name = sys.argv[1]
     else:
-        data_folder_name = os.path.join("datasets", "data_10v_12x12")
+        data_folder_name = os.path.join("datasets", "data_42v_20x20")
         
     main(data_folder_name)
