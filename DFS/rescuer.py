@@ -40,44 +40,19 @@ class Rescuer(AbstAgent):
         # It changes to ACTIVE when the map arrives
         self.set_state(VS.IDLE)
 
-    
-    def go_save_victims(self, map, victims):
-        """ The explorer sends the map containing the walls and
-        victims' location. The rescuer becomes ACTIVE. From now,
-        the deliberate method is called by the environment"""
+        def go_save_victims(self, map, victims):
+            print(f"\n\n*** R E S C U E R ***")
+            self.map = map
+            print(f"{self.NAME} Map received from the explorer")
+            self.map.draw()
 
-        print(f"\n\n*** R E S C U E R ***")
-        self.map = map
-        print(f"{self.NAME} Map received from the explorer")
-        self.map.draw()
+            self.victims = victims
+            print(f"{self.NAME} Total victims found: {len(self.victims)}")
 
-        print()
-        #print(f"{self.NAME} List of found victims received from the explorer")
-        self.victims = victims
-
-        # print the found victims - you may comment out
-        #for seq, data in self.victims.items():
-        #    coord, vital_signals = data
-        #    x, y = coord
-        #    print(f"{self.NAME} Victim seq number: {seq} at ({x}, {y}) vs: {vital_signals}")
-
-        #print(f"{self.NAME} time limit to rescue {self.plan_rtime}")
-
-        self.__planner()
-        print(f"{self.NAME} PLAN")
-        i = 1
-        self.plan_x = 0
-        self.plan_y = 0
-        for a in self.plan:
-            self.plan_x += a[0]
-            self.plan_y += a[1]
-            print(f"{self.NAME} {i}) dxy=({a[0]}, {a[1]}) vic: a[2] => at({self.plan_x}, {self.plan_y})")
-            i += 1
-
-        print(f"{self.NAME} END OF PLAN")
-                  
-        self.set_state(VS.ACTIVE)
-        
+            # Cria o plano de resgate
+            self.__planner()
+            self.set_state(VS.ACTIVE)  # Ativa o resgatador
+                
     def __depth_search(self, actions_res):
         enough_time = True
         ##print(f"\n{self.NAME} actions results: {actions_res}")
