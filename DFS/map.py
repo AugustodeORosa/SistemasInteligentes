@@ -63,5 +63,11 @@ class Map:
                     row += f"[     ?     ] "
             print(row)
 
-
+    
+    def debug_draw(self):
+        """Exibe o conteúdo do mapa para depuração."""
+        print("\n=== MAPA GLOBAL ===")
+        for coord, (difficulty, victim_seq, actions_res) in sorted(self.map_data.items()):
+            print(f"Posição: {coord}, Dificuldade: {difficulty}, Vítima: {victim_seq}, Ações: {actions_res}")
+        print("===================\n")  
     

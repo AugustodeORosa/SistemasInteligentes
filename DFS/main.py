@@ -20,7 +20,7 @@ def main(data_folder_name):
     
     # Configura os agentes
     rescuer_file = os.path.join(data_folder, "rescuer_config.txt")
-    resc = Rescuer(env, rescuer_file)
+    resc = Rescuer(env, rescuer_file,shared_map)
     
     num_explorers = 4  # Número de exploradores
     explorers = []
@@ -29,7 +29,7 @@ def main(data_folder_name):
         print(f"Config file for explorer {i}: {explorer_config_file}")
         explorer = Explorer(env, explorer_config_file, resc, shared_map)  # Passa o mapa compartilhado
         explorers.append(explorer)
-    
+
     # Executa o simulador
     env.run()
 
@@ -40,6 +40,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         data_folder_name = sys.argv[1]
     else:
-        data_folder_name = os.path.join("datasets", "data_10v_12x12")
+        data_folder_name = os.path.join("datasets", "data_42v_20x20")
         
     main(data_folder_name)
