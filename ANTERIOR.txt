@@ -1,0 +1,120 @@
+
+*** Final results per agent ***
+
+[ Agent RESCUER ]
+
+*** Consumed time ***
+78.88 of 300.00
+     No found victims
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     0,0,0,0,0.0
+
+     saved victims: (ID, Sev label, Sev value)
+     (0, 1, 19.1)
+
+     Critical victims saved     (Vs1) =   1 out of 3 (33.3)%
+     Instable victims saved     (Vs2) =   0 out of 3 (0.0)%
+     Pot. inst. victims saved   (Vs3) =   0 out of 2 (0.0)%
+     Stable victims saved       (Vs4) =   0 out of 2 (0.0)%
+     --------------------------------------
+     Total of saved victims     (Vs)  =   1 (10.00%)
+     Weighted saved victims per severity (Vsg) = 0.18
+
+     Sum of gravities of all saved victims = 19.09 of a total of 478.85
+       % of gravities of all saved victims = 0.04
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     1,0,0,0,0.18181818181818182
+
+[ Agent EXPLORER ]
+
+*** Consumed time ***
+565.00 of 600.00
+
+     found victims: (ID, Sev label, Sev value)
+     (0, 1, 19.1)      (1, 2, 45.4)      (2, 4, 75.4)
+
+     Critical victims found     (Ve1) =   1 out of 3 (33.3)%
+     Instable victims found     (Ve2) =   1 out of 3 (33.3)%
+     Pot. inst. victims found   (Ve3) =   0 out of 2 (0.0)%
+     Stable victims found       (Ve4) =   1 out of 2 (50.0)%
+     --------------------------------------
+     Total of found victims     (Ve)  =   3 (30.00%)
+     Weighted found victims per severity (Veg) = 0.30
+
+     Sum of gravities of all found victims = 139.88 of a total of 478.85
+       % of gravities of all found victims = 0.29
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     1,1,0,1,0.30303030303030304
+     No saved victims
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     0,0,0,0,0.0
+
+--------------
+
+
+*** ACUMULATED RESULTS - FOR ALL AGENTS ***
+
+ *** Numbers of Victims in the Environment ***
+   Critical victims    (V1) =   3
+   Instable victims    (V2) =   3
+   Pot. inst. victims  (V3) =   2
+   Stable victims      (V4) =   2
+   --------------------------------------
+   Total of victims    (V)  =  10
+   Sum of all gravities(SG) = 478.85
+   --------------------------------------
+   CSV of nb. total of victims
+   V1,V2,V3,V4,SG
+   3,3,2,2,478.853376
+
+ *** FOUND victims by all explorer agents ***
+
+     found victims: (ID, Sev label, Sev value)
+     (0, 1, 19.1)      (1, 2, 45.4)      (2, 4, 75.4)
+
+     Critical victims found     (Ve1) =   1 out of 3 (33.3)%
+     Instable victims found     (Ve2) =   1 out of 3 (33.3)%
+     Pot. inst. victims found   (Ve3) =   0 out of 2 (0.0)%
+     Stable victims found       (Ve4) =   1 out of 2 (50.0)%
+     --------------------------------------
+     Total of found victims     (Ve)  =   3 (30.00%)
+     Weighted found victims per severity (Veg) = 0.30
+
+     Sum of gravities of all found victims = 139.88 of a total of 478.85
+       % of gravities of all found victims = 0.29
+     --------------------------------------
+     CSV of found victims
+     Ve1,Ve2,Ve3,Ve4,Veg
+     1,1,0,1,0.30303030303030304
+
+ *** SAVED victims by all rescuer agents ***
+
+     saved victims: (ID, Sev label, Sev value)
+     (0, 1, 19.1)
+
+     Critical victims saved     (Vs1) =   1 out of 3 (33.3)%
+     Instable victims saved     (Vs2) =   0 out of 3 (0.0)%
+     Pot. inst. victims saved   (Vs3) =   0 out of 2 (0.0)%
+     Stable victims saved       (Vs4) =   0 out of 2 (0.0)%
+     --------------------------------------
+     Total of saved victims     (Vs)  =   1 (10.00%)
+     Weighted saved victims per severity (Vsg) = 0.18
+
+     Sum of gravities of all saved victims = 19.09 of a total of 478.85
+       % of gravities of all saved victims = 0.04
+     --------------------------------------
+     CSV of saved victims
+     Vs1,Vs2,Vs3,Vs4,Vsg
+     1,0,0,0,0.18181818181818182
+
+ *** END OF STATS ***
+ENV: Tecle qualquer coisa para encerrar >>
+
