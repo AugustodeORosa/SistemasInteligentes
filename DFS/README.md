@@ -1,12 +1,19 @@
-# EXAMPLE 02: Random explorer and a DFS rescuer
-This example features an explorer agent that walks randomly in the environment. It constructs a map of the explored region containing the obstacles and victims. The explorer then passes the map to the rescuer. Subsequently, the rescuer walks using the depth-first search within the discovered region, attempting to rescue the found victims.
+# Online DFS Explorer and a DFS Rescuer
 
-How to use:
-- copy the explorer.py, rescuer.py, and main.py to some folder
-- all the accessory .py you create, you should put in the folder
-- copy the folder 'vs' to the folder
+This example features an explorer agent that uses Online Depth-First Search (DFS) to navigate the environment systematically. It constructs a map of the explored region containing the obstacles and victims. The explorer then passes the map to the rescuer. Subsequently, the rescuer walks using the depth-first search within the discovered region, attempting to rescue the found victims.
 
-You should get this strutcture:
+## Key Updates
+- The explorer agent now employs Online DFS instead of random exploration.
+- Improved victim discovery rate with systematic navigation.
+- The rescuer agent continues to use DFS to save the victims efficiently.
+
+## How to Use
+1. Copy the `explorer.py`, `rescuer.py`, and `main.py` to a folder.
+2. Place all accessory `.py` files you create into the same folder.
+3. Copy the folder `vs` into the folder.
+
+## Expected Folder Structure
+```
 * folder
   * main.py
   * rescuer.py
@@ -16,4 +23,5 @@ You should get this strutcture:
     * constants.py
     * environment.py
     * physical_agent.py
-         
+```
+
