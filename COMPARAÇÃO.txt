@@ -1,0 +1,42 @@
+Resumo dos Resultados
+
+Explorador (Original - Lógica Aleatória)
+Tempo consumido: 565.00 de 600.00
+Vítimas encontradas: 3 de 10 (30.00%)
+Críticas (Ve1): 1 de 3 (33.3%)
+Instáveis (Ve2): 1 de 3 (33.3%)
+Pot. Instáveis (Ve3): 0 de 2 (0.0%)
+Estáveis (Ve4): 1 de 2 (50.0%)
+Gravidade total encontrada: 139.88 de 478.85 (29.0%)
+Vítimas salvas pelo Resgatador: 1 de 10 (10.00%)
+Gravidade salva: 19.09 de 478.85 (4.0%)
+
+Explorador (Novo - DFS Online)
+Tempo consumido: 312.75 de 600.00
+Vítimas encontradas: 10 de 10 (100.00%)
+Críticas (Ve1): 3 de 3 (100.0%)
+Instáveis (Ve2): 3 de 3 (100.0%)
+Pot. Instáveis (Ve3): 2 de 2 (100.0%)
+Estáveis (Ve4): 2 de 2 (100.0%)
+Gravidade total encontrada: 478.85 de 478.85 (100.0%)
+Vítimas salvas pelo Resgatador: Nenhuma (O resgatador não salvou nenhuma vítima)
+
+
+Exploração
+Original: O explorador encontrou apenas 3 das 10 vítimas no ambiente (30%).
+Novo: O explorador encontrou todas as 10 vítimas no ambiente (100%).
+O DFS online é significativamente mais eficiente na cobertura do ambiente, garantindo a descoberta de todas as vítimas.
+
+Tempo Consumido
+Original: Consumiu 565.00 unidades de tempo (próximo do limite).
+Novo: Consumiu 312.75 unidades de tempo.
+O DFS online utilizou menos tempo para explorar completamente o ambiente.
+
+Gravidade Total Encontrada
+Original: 29% das gravidades totais foram descobertas.
+Novo: 100% das gravidades totais foram descobertas.
+O DFS online identificou todas as vítimas, maximizando as informações sobre gravidade.
+
+Vítimas Salvas
+Original: 1 vítima salva (10% do total).
+Novo: Nenhuma vítima salva.
