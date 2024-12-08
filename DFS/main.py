@@ -22,7 +22,7 @@ def main(data_folder_name):
     rescuer_file = os.path.join(data_folder, "rescuer_config.txt")
     resc = Rescuer(env, rescuer_file)
     
-    num_explorers = 3  # Número de exploradores
+    num_explorers = 4  # Número de exploradores
     explorers = []
     for i in range(num_explorers):
         explorer_config_file = os.path.join(data_folder, f"explorer_{i}_config.txt")
@@ -40,6 +40,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         data_folder_name = sys.argv[1]
     else:
-        data_folder_name = os.path.join("datasets", "data_42v_20x20")
+        data_folder_name = os.path.join("datasets", "data_10v_12x12")
         
     main(data_folder_name)

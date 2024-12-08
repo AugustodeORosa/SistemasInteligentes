@@ -40,18 +40,18 @@ class Rescuer(AbstAgent):
         # It changes to ACTIVE when the map arrives
         self.set_state(VS.IDLE)
 
-        def go_save_victims(self, map, victims):
-            print(f"\n\n*** R E S C U E R ***")
-            self.map = map
-            print(f"{self.NAME} Map received from the explorer")
-            self.map.draw()
+    def go_save_victims(self, map, victims):
+        print(f"\n\n*** R E S C U E R ***")
+        self.map = map
+        print(f"{self.NAME} Map received from the explorer")
+        self.map.draw()
 
-            self.victims = victims
-            print(f"{self.NAME} Total victims found: {len(self.victims)}")
+        self.victims = victims
+        print(f"{self.NAME} Total victims found: {len(self.victims)}")
 
-            # Cria o plano de resgate
-            self.__planner()
-            self.set_state(VS.ACTIVE)  # Ativa o resgatador
+        # Cria o plano de resgate
+        self.__planner()
+        self.set_state(VS.ACTIVE)  # Ativa o resgatador
                 
     def __depth_search(self, actions_res):
         enough_time = True
