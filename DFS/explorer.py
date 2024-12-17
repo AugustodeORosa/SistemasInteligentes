@@ -2,6 +2,7 @@ import sys
 import os
 import random
 import math
+import queue
 from abc import ABC, abstractmethod
 from vs.abstract_agent import AbstAgent
 from vs.constants import VS
@@ -26,7 +27,7 @@ class Explorer(AbstAgent):
     completed_explorers = 0  # Contador de exploradores que finalizaram
     victim_global_id = 0  # ID único para todas as vítimas
 
-    def __init__(self, env, config_file, resc, shared_map):
+    def __init__(self, env, config_file, resc, shared_map, ex_id):
         super().__init__(env, config_file)
         self.walk_stack = Stack()
         self.set_state(VS.ACTIVE)  # Certifica que o estado inicial é ACTIVE
@@ -35,12 +36,17 @@ class Explorer(AbstAgent):
         self.y = 0
         self.map = shared_map
         self.victims = {}
+        self.id = ex_id
 
         # Incrementa o número total de exploradores
         Explorer.total_explorers += 1
+      
 
         # Inicializa o mapa com a posição inicial
         self.map.add((self.x, self.y), 1, VS.NO_VICTIM, self.check_walls_and_lim())
+        self.map.add_visited((self.x,self.y))
+
+
 
     def finalize_map(self):
         """ Finaliza a exploração e verifica se todos os exploradores concluíram. """
@@ -74,28 +80,117 @@ class Explorer(AbstAgent):
             self.map.draw()
             self.resc.go_save_victims(self.map, {})
 
+
+
     def explore(self):
         """ Implementa DFS on-line para explorar o ambiente. """
         current_pos = (self.x, self.y)
         obstacles = self.check_walls_and_lim()
+        unvisited_neighbors = ()
 
         # Encontra vizinhos não visitados
-        unvisited_neighbors = [
-            (direction, (self.x + Explorer.AC_INCR[direction][0], 
-                        self.y + Explorer.AC_INCR[direction][1]))
-            for direction, result in enumerate(obstacles)
-            if result == VS.CLEAR and not self.map.in_map((self.x + Explorer.AC_INCR[direction][0],
-                                                        self.y + Explorer.AC_INCR[direction][1]))
-        ]
+        match self.id:
+            case 0:
+                #explorador do quadrante 1(esquerda-cima)
+                #colocar os lados da direção enviasada escolhida primeiro
+                #para que ele vá o máximo possivel para o lado dele antes de explorar
 
-        if unvisited_neighbors:
+                RNG = random.randint(0,100)
+                if(0 <= RNG <= 20):
+                    direction = 7 #ul
+                elif(21 <= RNG <= 40):
+                    direction = 0 #up
+                elif(41 <= RNG <= 60):
+                    direction = 6 #left
+                elif(61 <= RNG <= 65):
+                    direction = 4 # down
+                elif(66 <= RNG <= 70):
+                    direction = 2 #right
+                elif(71 <= RNG <= 80):
+                    direction = 1
+                elif(81 <= RNG <= 90):
+                    direction = 3
+                elif(91 <= RNG <= 100):
+                    direction = 5
+
+            case 1:
+                #explorador do quadrante 2(direita-cima)
+
+                RNG = random.randint(0,100)
+                if(0 <= RNG <= 20):
+                    direction = 1 #ul
+                elif(21 <= RNG <= 40):
+                    direction = 0 #up
+                elif(41 <= RNG <= 60):
+                    direction = 2 #left
+                elif(61 <= RNG <= 65):
+                    direction = 4 # down
+                elif(66 <= RNG <= 70):
+                    direction = 6 #right
+                elif(71 <= RNG <= 80):
+                    direction = 3
+                elif(81 <= RNG <= 90):
+                    direction = 5
+                elif(91 <= RNG <= 100):
+                    direction = 7
+
+            case 2:
+                #explorador do quadrante 3(esquerda-baixo)
+
+                RNG = random.randint(0,100)
+                if(0 <= RNG <= 20):
+                    direction = 5 #dl
+                elif(21 <= RNG <= 40):
+                    direction = 4 #down
+                elif(41 <= RNG <= 60):
+                    direction = 6 #left
+                elif(61 <= RNG <= 65):
+                    direction = 0 #up
+                elif(66 <= RNG <= 70):
+                    direction = 2 #right
+                elif(71 <= RNG <= 80):
+                    direction = 1
+                elif(81 <= RNG <= 90):
+                    direction = 3
+                elif(91 <= RNG <= 100):
+                    direction = 7
+
+            case 3:
+                #explorador do quadrante 4(direita-baixo)  
+
+                RNG = random.randint(0,100)
+                if(0 <= RNG <= 20):
+                    direction = 3 #dr
+                elif(21 <= RNG <= 40):
+                    direction = 4 #d
+                elif(41 <= RNG <= 60):
+                    direction = 2 #right    
+                elif(61 <= RNG <= 65):
+                    direction = 0 
+                elif(66 <= RNG <= 70):
+                    direction = 6 
+                elif(71 <= RNG <= 80):
+                    direction = 1
+                elif(81 <= RNG <= 90):
+                    direction = 7
+                elif(91 <= RNG <= 100):
+                    direction = 5
+
+        nx = (self.x + Explorer.AC_INCR[direction][0])
+        ny = (self.y + Explorer.AC_INCR[direction][1])
+
+        is_v = self.map.return_visited((nx, ny))
+        
+        if not is_v:
             # Escolhe o primeiro vizinho não visitado
-            direction, (nx, ny) = unvisited_neighbors[0]
             result = self.walk(*Explorer.AC_INCR[direction])
+
             if result == VS.EXECUTED:
+                #elf.walk_stack.push((self.x, self.y))  # Salva posição atual
                 self.walk_stack.push((self.x, self.y))  # Salva posição atual
                 self.x, self.y = nx, ny
                 self.map.add((self.x, self.y), 1, VS.NO_VICTIM, self.check_walls_and_lim())
+                self.map.add_visited((self.x, self.y))
 
                 # Verifica por vítimas
                 seq = self.check_for_victim()
@@ -104,7 +199,7 @@ class Explorer(AbstAgent):
                     victim_id = Explorer.victim_global_id  # Atribui um ID global único
                     Explorer.victim_global_id += 1         # Incrementa o ID global
                     self.victims[victim_id] = ((self.x, self.y), vs)
-                    print(f"{self.NAME}: Vítima encontrada em ({self.x}, {self.y}) com ID único {victim_id}.")
+                    print(f"{self.NAME}: Vítima encontrada em ({self.x}, {self.y}) com ID único {victim_id} pelo explorador {self.id}.")
         else:
             # Retrocede
             if not self.walk_stack.is_empty():
@@ -113,8 +208,28 @@ class Explorer(AbstAgent):
                 self.walk(dx, dy)
                 self.x, self.y = prev_x, prev_y
             else:
-                print(f"{self.NAME}: Sem mais movimentos possíveis. Tentando voltar à base.")
-                self.come_back()
+                direction = random.randint(0, 7)
+            
+            if obstacles[direction] == VS.CLEAR:
+                nx = (self.x + Explorer.AC_INCR[direction][0])
+            ny = (self.y + Explorer.AC_INCR[direction][1])
+            result = self.walk(*Explorer.AC_INCR[direction])
+
+            if result == VS.EXECUTED:
+                #elf.walk_stack.push((self.x, self.y))  # Salva posição atual
+                self.x, self.y = nx, ny
+
+                # Verifica por vítimas
+                seq = self.check_for_victim()
+                if seq != VS.NO_VICTIM:
+                    vs = self.read_vital_signals()
+                    victim_id = Explorer.victim_global_id  # Atribui um ID global único
+                    Explorer.victim_global_id += 1         # Incrementa o ID global
+                    self.victims[victim_id] = ((self.x, self.y), vs)
+                    print(f"{self.NAME}: Vítima encontrada em ({self.x}, {self.y}) com ID único {victim_id} pelo explorador {self.id}.")
+
+
+
 
     def come_back(self):
         """ Retorna para a base utilizando a pilha de movimentos. """

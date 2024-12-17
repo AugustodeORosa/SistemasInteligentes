@@ -17,11 +17,14 @@
 ##   VS.END  the agent cannot execute the action (end of grid)
 ##   VS.CLEAR the agent can execute the action
 
+import queue
+
 from vs.constants import VS
 
 class Map:
     def __init__(self):
         self.map_data = {}
+        self.map_coord_list = {}
 
     def in_map(self, coord):
         if coord in self.map_data:
@@ -39,6 +42,9 @@ class Map:
             @param victim_seq: the sequential number of the victim returned by the Environment
             @param actions_res: the results of the possible actions from the position (x, y) """
         self.map_data[coord] = (difficulty, victim_seq, actions_res)
+
+    def add_visited(self, coord):
+        self.map_coord_list[coord] = (1)
 
     def draw(self):
         if not self.map_data:
@@ -69,5 +75,14 @@ class Map:
         print("\n=== MAPA GLOBAL ===")
         for coord, (difficulty, victim_seq, actions_res) in sorted(self.map_data.items()):
             print(f"Posição: {coord}, Dificuldade: {difficulty}, Vítima: {victim_seq}, Ações: {actions_res}")
-        print("===================\n")  
+        print("===================\n")
+
+    def return_visited(self,coord):
+        item = self.map_coord_list.get(coord)
+        if item:
+            return item
+        else:
+            return 0
+        
+
     
